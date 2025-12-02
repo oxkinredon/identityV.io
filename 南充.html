@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>南充 - 嘉陵江畔的璀璨明珠</title>
+    <!-- 引入外部资源 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#c8102e', // 南充城市主色调 - 红色
+                        secondary: '#2260a5', // 嘉陵江蓝色
+                        accent: '#ffb81c', // 金色点缀
+                        dark: '#1a1a1a',
+                        light: '#f8f5f0',
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans SC"', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'nanchong-pattern': "url('https://picsum.photos/id/1031/1920/1080')",
+                    }
+                },
+            }
+        }
+    </script>
+    
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-2;
+            }
+            .bg-glass {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+        }
+    </style>
+    
+    <!-- 全局样式 -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('https://picsum.photos/id/1036/1920/1080');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+        .animate-slide-up {
+            animation: slideUp 0.8s ease-out;
+        }
+        .animate-pulse-soft {
+            animation: pulseSoft 2s infinite;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes pulseSoft {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+    </style>
+</head>
+<body class="bg-light text-dark">
+    <!-- 导航栏 -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2">
+                <div class="bg-primary text-white h-10 w-10 rounded-full flex items-center justify-center font-bold text-xl">南</div>
+                <span class="text-white font-bold text-xl text-shadow">南充</span>
+            </a>
+            
+            <!-- 桌面导航 -->
+            <ul class="hidden md:flex gap-8">
+                <li><a href="#intro" class="text-white hover:text-accent transition-colors text-shadow">城市简介</a></li>
+                <li><a href="#food" class="text-white hover:text-accent transition-colors text-shadow">特色美食</a></li>
+                <li><a href="#scenery" class="text-white hover:text-accent transition-colors text-shadow">风景名胜</a></li>
+                <li><a href="#culture" class="text-white hover:text-accent transition-colors text-shadow">文化底蕴</a></li>
+                <li><a href="#modern" class="text-white hover:text-accent transition-colors text-shadow">现代风采</a></li>
+            </ul>
+            
+            <!-- 移动端菜单按钮 -->
+            <button id="menu-btn" class="md:hidden text-white text-2xl">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- 移动端导航菜单 -->
+        <div id="mobile-menu" class="md:hidden bg-dark/95 absolute w-full left-0 top-full transform -translate-y-full opacity-0 transition-all duration-300 pointer-events-none">
+            <ul class="container mx-auto px-4 py-4 flex flex-col gap-4">
+                <li><a href="#intro" class="text-white hover:text-accent transition-colors block py-2">城市简介</a></li>
+                <li><a href="#food" class="text-white hover:text-accent transition-colors block py-2">特色美食</a></li>
+                <li><a href="#scenery" class="text-white hover:text-accent transition-colors block py-2">风景名胜</a></li>
+                <li><a href="#culture" class="text-white hover:text-accent transition-colors block py-2">文化底蕴</a></li>
+                <li><a href="#modern" class="text-white hover:text-accent transition-colors block py-2">现代风采</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 英雄区 -->
+    <header class="hero-section h-screen flex items-center justify-center">
+        <div class="container mx-auto px-4 text-center animate-fade-in">
+            <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-bold text-white mb-6 text-shadow leading-tight">
+                嘉陵江畔<br>璀璨明珠
+            </h1>
+            <p class="text-[clamp(1rem,3vw,1.5rem)] text-white/90 mb-10 max-w-2xl mx-auto text-shadow">
+                探索南充，一座拥有2200多年历史的文化名城
+            </p>
+            <a href="#intro" class="inline-block bg-primary hover:bg-primary/90 text-white font-medium py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg">
+                开始探索
+            </a>
+        </div>
+    </header>
+
+    <!-- 城市简介 -->
+    <section id="intro" class="py-20 bg-gradient-to-b from-light to-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">千年古城</span>
+                <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold text-dark mb-4">南充城市简介</h2>
+                <p class="max-w-2xl mx-auto text-gray-600">嘉陵江畔的历史文化名城，三国文化的重要发源地</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                <div class="order-2 md:order-1">
+                    <h3 class="text-2xl font-bold text-dark mb-4">川北重镇·历史悠久</h3>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        南充，古称果州、顺庆，位于四川省东北部，嘉陵江中游，是四川省第二人口大市。南充历史悠久，自汉高祖公元前202年设立安汉县以来，已有2200多年的建城历史。
+                    </p>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        南充是三国文化的重要发源地，蜀汉大将张飞曾在此镇守7年之久，留下了丰富的历史文化遗迹。同时，南充也是川陕革命根据地的重要组成部分，红色文化底蕴深厚。
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6 mt-8">
+                        <div class="bg-white rounded-xl p-5 shadow-md card-hover">
+                            <div class="text-primary text-3xl mb-3"><i class="fa fa-map-marker"></i></div>
+                            <h4 class="font-bold text-lg mb-2">地理位置</h4>
+                            <p class="text-gray-600 text-sm">四川东北部，嘉陵江中游</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-5 shadow-md card-hover">
+                            <div class="text-primary text-3xl mb-3"><i class="fa fa-users"></i></div>
+                            <h4 class="font-bold text-lg mb-2">人口规模</h4>
+                            <p class="text-gray-600 text-sm">约640万（四川省第二人口大市）</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-5 shadow-md card-hover">
+                            <div class="text-primary text-3xl mb-3"><i class="fa fa-calendar"></i></div>
+                            <h4 class="font-bold text-lg mb-2">建城历史</h4>
+                            <p class="text-gray-600 text-sm">2200多年（汉高祖时期）</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-5 shadow-md card-hover">
+                            <div class="text-primary text-3xl mb-3"><i class="fa fa-trophy"></i></div>
+                            <h4 class="font-bold text-lg mb-2">城市荣誉</h4>
+                            <p class="text-gray-600 text-sm">中国优秀旅游城市、国家园林城市</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-1 md:order-2 relative">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl animate-pulse-soft">
+                        <img src="https://picsum.photos/id/1039/800/600" alt="南充城市风光" class="w-full h-auto object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-6">
+                            <p class="text-white text-lg font-medium">嘉陵江穿城而过，滋养着这座千年古城</p>
+                        </div>
+                    </div>
+                    <!-- 装饰元素 -->
+                    <div class="absolute -bottom-5 -left-5 w-32 h-32 bg-accent/20 rounded-full -z-10"></div>
+                    <div class="absolute -top-5 -right-5 w-24 h-24 bg-primary/20 rounded-full -z-10"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 特色美食 -->
+    <section id="food" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">味蕾之旅</span>
+                <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold text-dark mb-4">南充特色美食</h2>
+                <p class="max-w-2xl mx-auto text-gray-600">品味川北风味，感受舌尖上的南充</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 美食卡片 1 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="relative h-60 overflow-hidden">
+                        <img src="https://picsum.photos/id/292/600/400" alt="南充米粉" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-dark mb-2">南充米粉</h3>
+                        <p class="text-gray-600 mb-4">南充米粉历史悠久，以精细的工艺和独特的风味闻名。粉条洁白柔韧，配以浓郁的汤底和丰富的臊子，是南充人早餐的首选。</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-1 text-accent">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <span class="text-sm text-gray-500">当地特色早餐</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 美食卡片 2 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="relative h-60 overflow-hidden">
+                        <img src="https://picsum.photos/id/326/600/400" alt="张飞牛肉" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-dark mb-2">张飞牛肉</h3>
+                        <p class="text-gray-600 mb-4">因三国名将张飞而得名，精选阆中本地黄牛肉，采用传统工艺腌制而成。肉质紧密，色泽红润，味道鲜美，是南充的传统名特产。</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-1 text-accent">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-half-o"></i>
+                            </div>
+                            <span class="text-sm text-gray-500">历史文化名吃</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 美食卡片 3 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="relative h-60 overflow-hidden">
+                        <img src="https://picsum.photos/id/365/600/400" alt="川北凉粉" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-dark mb-2">川北凉粉</h3>
+                        <p class="text-gray-600 mb-4">川北凉粉是南充的传统小吃，以其清爽可口、麻辣鲜香而闻名。凉粉细腻嫩滑，配以特制的辣椒油、醋、蒜泥等调料，风味独特。</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-1 text-accent">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <span class="text-sm text-gray-500">传统名小吃</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 美食卡片 4 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="relative h-60 overflow-hidden">
+                        <img src="https://picsum.photos/id/431/600/400" alt="营山板鸭" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-dark mb-2">营山板鸭</h3>
+                        <p class="text-gray-600 mb-4">营山板鸭是南充市营山县的特产，采用传统工艺熏制而成。色泽金黄，肉质细嫩，香味浓郁，是逢年过节的必备佳品。</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-1 text-accent">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-half-o"></i>
+                            </div>
+                            <span class="text-sm text-gray-500">地方特产</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 美食卡片 5 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="relative h-60 overflow-hidden">
+                        <img src="https://picsum.photos/id/493/600/400" alt="南部肥肠" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-dark mb-2">南部肥肠</h3>
+                        <p class="text-gray-600 mb-4">南部县的特色美食，选用新鲜猪大肠，经多道工序处理后，配以多种香料炖煮而成。口感软糯，味道浓郁，是当地的招牌菜。</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-1 text-accent">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <span class="text-sm text-gray-500">特色菜品</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 美食卡片 6 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="relative h-60 overflow-hidden">
+                        <img src="https://picsum.photos/id/225/600/400" alt="西充狮子糕" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-dark mb-2">西充狮子糕</h3>
+                        <p class="text-gray-600 mb-4">西充狮子糕是南充西充县的传统糕点，以糯米粉、芝麻、白糖等为原料制作而成。形似狮子，香甜酥脆，口感独特，是当地的特色小吃。</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-1 text-accent">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <span class="text-sm text-gray-500">传统糕点</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 风景名胜 -->
+    <section id="scenery" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">自然风光</span>
+                <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold text-dark mb-4">南充风景名胜</h2>
+                <p class="max-w-2xl mx-auto text-gray-600">山清水秀，人文荟萃，尽在南充</p>
+            </div>
+            
+            <!-- 风景轮播 -->
+            <div class="relative mb-16">
+                <div id="scenery-carousel" class="overflow-hidden rounded-2xl shadow-xl">
+                    <div class="flex transition-transform duration-500 ease-in-out" style="transform: translateX(0)">
+                        <!-- 轮播项 1 -->
+                        <div class="min-w-full h-[500px] relative">
+                            <img src="https://picsum.photos/id/1039/1920/1080" alt="阆中古城" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent flex flex-col justify-end p-8">
+                                <h3 class="text-3xl font-bold text-white mb-3 text-shadow">阆中古城</h3>
+                                <p class="text-white/90 max-w-2xl mb-4">中国四大古城之一，国家5A级旅游景区，拥有2300多年历史的文化名城，保存完好的明清建筑群，被誉为"风水古城"。</p>
+                                <span class="inline-block px-4 py-2 bg-primary text-white rounded-full text-sm">国家5A级景区</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 轮播项 2 -->
+                        <div class="min-w-full h-[500px] relative">
+                            <img src="https://picsum.photos/id/1036/1920/1080" alt="嘉陵第一桑梓" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent flex flex-col justify-end p-8">
+                                <h3 class="text-3xl font-bold text-white mb-3 text-shadow">嘉陵第一桑梓</h3>
+                                <p class="text-white/90 max-w-2xl mb-4">位于蓬安县，融合了嘉陵江自然景观和司马相如文化，是国家4A级旅游景区，被誉为"嘉陵江流域最原生态的人文自然景区"。</p>
+                                <span class="inline-block px-4 py-2 bg-primary text-white rounded-full text-sm">国家4A级景区</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 轮播项 3 -->
+                        <div class="min-w-full h-[500px] relative">
+                            <img src="https://picsum.photos/id/1035/1920/1080" alt="朱德故里" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent flex flex-col justify-end p-8">
+                                <h3 class="text-3xl font-bold text-white mb-3 text-shadow">朱德故里</h3>
+                                <p class="text-white/90 max-w-2xl mb-4">位于仪陇县，是伟大的无产阶级革命家朱德元帅的诞生地，国家5A级旅游景区，全国爱国主义教育示范基地。</p>
+                                <span class="inline-block px-4 py-2 bg-primary text-white rounded-full text-sm">国家5A级景区</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 轮播项 4 -->
+                        <div class="min-w-full h-[500px] relative">
+                            <img src="https://picsum.photos/id/1037/1920/1080" alt="升钟湖" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent flex flex-col justify-end p-8">
+                                <h3 class="text-3xl font-bold text-white mb-3 text-shadow">升钟湖</h3>
+                                <p class="text-white/90 max-w-2xl mb-4">位于南部县，是西南地区最大的人工湖泊之一，国家4A级旅游景区，被誉为"中国钓鱼城"，是休闲度假的理想去处。</p>
+                                <span class="inline-block px-4 py-2 bg-primary text-white rounded-full text-sm">国家4A级景区</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 轮播控制按钮 -->
+                <button id="prev-slide" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/30 hover:bg-white/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-2xl transition-colors">
+                    <i class="fa fa-angle-left"></i>
+                </button>
+                <button id="next-slide" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/30 hover:bg-white/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-2xl transition-colors">
+                    <i class="fa fa-angle-right"></i>
+                </button>
+                
+                <!-- 轮播指示器 -->
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                    <button class="w-3 h-3 rounded-full bg-white opacity-100 transition-opacity"></button>
+                    <button class="w-3 h-3 rounded-full bg-white opacity-50 transition-opacity"></button>
+                    <button class="w-3 h-3 rounded-full bg-white opacity-50 transition-opacity"></button>
+                    <button class="w-3 h-3 rounded-full bg-white opacity-50 transition-opacity"></button>
+                </div>
+            </div>
+            
+            <!-- 其他景点 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 景点卡片 1 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="h-40 overflow-hidden">
+                        <img src="https://picsum.photos/id/1038/400/300" alt="凌云山" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">凌云山</h3>
+                        <p class="text-gray-600 text-sm">国家4A级旅游景区，以独特的丹霞地貌和宗教文化闻名。</p>
+                    </div>
+                </div>
+                
+                <!-- 景点卡片 2 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="h-40 overflow-hidden">
+                        <img src="https://picsum.photos/id/1032/400/300" alt="张澜故里" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">张澜故里</h3>
+                        <p class="text-gray-600 text-sm">位于西充县，是伟大的民主革命家张澜先生的诞生地。</p>
+                    </div>
+                </div>
+                
+                <!-- 景点卡片 3 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="h-40 overflow-hidden">
+                        <img src="https://picsum.photos/id/1033/400/300" alt="西山风景区" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">西山风景区</h3>
+                        <p class="text-gray-600 text-sm">位于南充市区，集自然风光和人文景观于一体的城市公园。</p>
+                    </div>
+                </div>
+                
+                <!-- 景点卡片 4 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover">
+                    <div class="h-40 overflow-hidden">
+                        <img src="https://picsum.photos/id/1034/400/300" alt="嘉陵江第一曲流" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">嘉陵江第一曲流</h3>
+                        <p class="text-gray-600 text-sm">位于高坪区，是嘉陵江流域最优美的弯道之一。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 文化底蕴 -->
+    <section id="culture" class="py-20 bg-white relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full"></div>
+        <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-secondary/5 rounded-full"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <span class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">历史文化</span>
+                <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold text-dark mb-4">南充文化底蕴</h2>
+                <p class="max-w-2xl mx-auto text-gray-600">传承千年文明，彰显文化魅力</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <!-- 文化板块 1 -->
+                <div class="bg-white rounded-xl p-8 shadow-lg card-hover border border-gray-100">
+                    <div class="text-primary text-4xl mb-6"><i class="fa fa-book"></i></div>
+                    <h3 class="text-2xl font-bold text-dark mb-4">三国文化</h3>
+                    <p class="text-gray-700 mb-6">
+                        南充是三国文化的重要发源地之一，蜀汉大将张飞曾在此镇守7年之久，阆中古城至今仍保留着张飞庙、汉桓侯祠等三国文化遗迹。南充的三国文化底蕴深厚，影响深远。
+                    </p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-check-circle text-primary mt-1"></i>
+                            <span>阆中张飞庙</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-check-circle text-primary mt-1"></i>
+                            <span>万卷楼（陈寿著《三国志》处）</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-check-circle text-primary mt-1"></i>
+                            <span>三国文化主题公园</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 文化板块 2 -->
+                <div class="bg-white rounded-xl p-8 shadow-lg card-hover border border-gray-100">
+                    <div class="text-primary text-4xl mb-6"><i class="fa fa-flag"></i></div>
+                    <h3 class="text-2xl font-bold text-dark mb-4">红色文化</h3>
+                    <p class="text-gray-700 mb-6">
+                        南充是川陕革命根据地的重要组成部分，涌现出了朱德、罗瑞卿、张澜等老一辈无产阶级革命家。南充的红色文化资源丰富，是进行爱国主义教育和革命传统教育的重要基地。
+                    </p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-check-circle text-primary mt-1"></i>
+                            <span>朱德同志故居纪念馆</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-check-circle text-primary mt-1"></i>
+                            <span>罗瑞卿纪念馆</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-check-circle text-primary mt-1"></i>
+                            <span>川陕革命根据地纪念馆</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 文化板块 3 -->
+                <div class="bg-white rounded-xl p-8 shadow-lg card-hover border border-gray-100">
+                    <div class="text-primary text-4xl mb-6"><i class="fa fa-paint-brush"></i></div>
+                    <h3 class="text-2xl font-bold text-dark mb-4">民俗文化</h3>
+                    <p class="text-gray-700 mb-6">
+                        南充拥有丰富多彩的民俗文化，包括川剧、灯戏、剪纸、竹编等传统艺术形式。南充的民俗文化活动丰富多彩，如阆中古城的春节文化活动、仪陇的客家文化节等，吸引了众多游客。
+                    </p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-check-circle text-primary mt-1"></i>
+                            <span>阆中灯戏</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-check-circle text-primary mt-1"></i>
+                            <span>南部剪纸</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-check-circle text-primary mt-1"></i>
+                            <span>仪陇客家文化</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 文化名人 -->
+            <div class="mt-20">
+                <h3 class="text-2xl font-bold text-dark mb-10 text-center">南充历史文化名人</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- 名人卡片 1 -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-md text-center card-hover">
+                        <div class="h-56 overflow-hidden">
+                            <img src="https://picsum.photos/id/1025/400/600" alt="朱德" class="w-full h-full object-cover object-top">
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-lg mb-1">朱德</h4>
+                            <p class="text-primary text-sm mb-3">无产阶级革命家</p>
+                            <p class="text-gray-600 text-sm">伟大的马克思主义者，无产阶级革命家、政治家和军事家，中国人民解放军的主要缔造者之一。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 名人卡片 2 -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-md text-center card-hover">
+                        <div class="h-56 overflow-hidden">
+                            <img src="https://picsum.photos/id/1027/400/600" alt="张澜" class="w-full h-full object-cover object-top">
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-lg mb-1">张澜</h4>
+                            <p class="text-primary text-sm mb-3">民主革命家</p>
+                            <p class="text-gray-600 text-sm">伟大的爱国主义者，著名的民主主义革命家、教育家，中国民主同盟的创建者和领导者。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 名人卡片 3 -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-md text-center card-hover">
+                        <div class="h-56 overflow-hidden">
+                            <img src="https://picsum.photos/id/1026/400/600" alt="陈寿" class="w-full h-full object-cover object-top">
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-lg mb-1">陈寿</h4>
+                            <p class="text-primary text-sm mb-3">史学家</p>
+                            <p class="text-gray-600 text-sm">西晋著名史学家，著有《三国志》，是中国古代史学的重要著作，对后世影响深远。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 名人卡片 4 -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-md text-center card-hover">
+                        <div class="h-56 overflow-hidden">
+                            <img src="https://picsum.photos/id/1028/400/600" alt="罗瑞卿" class="w-full h-full object-cover object-top">
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-lg mb-1">罗瑞卿</h4>
+                            <p class="text-primary text-sm mb-3">无产阶级革命家</p>
+                            <p class="text-gray-600 text-sm">中国无产阶级革命家、军事家，中国人民解放军高级将领，中华人民共和国开国大将。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 现代风采 -->
+    <section id="modern" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">城市发展</span>
+                <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold text-dark mb-4">南充现代风采</h2>
+                <p class="max-w-2xl mx-auto text-gray-600">古老与现代交融，传统与创新并重</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                <div class="order-2 lg:order-1">
+                    <h3 class="text-2xl font-bold text-dark mb-6">现代化宜居城市</h3>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        近年来，南充市经济社会发展迅速，城市面貌焕然一新。南充是四川省重要的区域中心城市，是成渝经济圈北部中心城市，也是川东北经济区的核心城市。
+                    </p>
+                    
+                    <!-- 发展成就 -->
+                    <div class="space-y-6">
+                        <div class="bg-white p-5 rounded-xl shadow-md">
+                            <div class="flex items-center gap-4 mb-3">
+                                <div class="text-primary text-3xl"><i class="fa fa-industry"></i></div>
+                                <h4 class="font-bold text-lg">经济发展</h4>
+                            </div>
+                            <p class="text-gray-600 pl-12">形成了汽车制造、油气化工、丝纺服装、食品加工等支柱产业，经济实力不断增强。</p>
+                        </div>
+                        
+                        <div class="bg-white p-5 rounded-xl shadow-md">
+                            <div class="flex items-center gap-4 mb-3">
+                                <div class="text-primary text-3xl"><i class="fa fa-road"></i></div>
+                                <h4 class="font-bold text-lg">交通枢纽</h4>
+                            </div>
+                            <p class="text-gray-600 pl-12">南充是川东北重要的交通枢纽，拥有高速公路、铁路、航空、水运等立体交通网络，交通十分便利。</p>
+                        </div>
+                        
+                        <div class="bg-white p-5 rounded-xl shadow-md">
+                            <div class="flex items-center gap-4 mb-3">
+                                <div class="text-primary text-3xl"><i class="fa fa-graduation-cap"></i></div>
+                                <h4 class="font-bold text-lg">教育事业</h4>
+                            </div>
+                            <p class="text-gray-600 pl-12">拥有西南石油大学、西华师范大学等多所高等院校，是川东北重要的教育中心。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-1 lg:order-2">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-4">
+                            <div class="rounded-xl overflow-hidden shadow-lg transform translate-y-8">
+                                <img src="https://picsum.photos/id/1031/600/800" alt="南充城市风光" class="w-full h-auto">
+                            </div>
+                            <div class="rounded-xl overflow-hidden shadow-lg">
+                                <img src="https://picsum.photos/id/1032/600/400" alt="南充城市风光" class="w-full h-auto">
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="rounded-xl overflow-hidden shadow-lg">
+                                <img src="https://picsum.photos/id/1033/600/400" alt="南充城市风光" class="w-full h-auto">
+                            </div>
+                            <div class="rounded-xl overflow-hidden shadow-lg transform translate-y-8">
+                                <img src="https://picsum.photos/id/1034/600/800" alt="南充城市风光" class="w-full h-auto">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 城市规划 -->
+            <div class="mt-20 bg-white rounded-2xl p-8 shadow-xl">
+                <h3 class="text-2xl font-bold text-dark mb-8 text-center">未来发展规划</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="border border-gray-100 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="text-primary text-3xl mb-4"><i class="fa fa-line-chart"></i></div>
+                        <h4 class="font-bold text-lg mb-3">经济强市</h4>
+                        <p class="text-gray-600">建设成渝第二城，争创全省经济副中心，打造川东北经济增长极。</p>
+                    </div>
+                    
+                    <div class="border border-gray-100 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="text-primary text-3xl mb-4"><i class="fa fa-leaf"></i></div>
+                        <h4 class="font-bold text-lg mb-3">生态新城</h4>
+                        <p class="text-gray-600">建设嘉陵江流域生态屏障，打造山清水秀、宜居宜业的生态城市。</p>
+                    </div>
+                    
+                    <div class="border border-gray-100 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="text-primary text-3xl mb-4"><i class="fa fa-heart"></i></div>
+                        <h4 class="font-bold text-lg mb-3">幸福南充</h4>
+                        <p class="text-gray-600">持续改善民生，提升城市品质，建设人民满意的幸福美丽南充。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 旅游指南 -->
+    <section class="py-20 bg-gradient-to-b from-white to-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">出行指南</span>
+                <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold text-dark mb-4">南充旅游指南</h2>
+                <p class="max-w-2xl mx-auto text-gray-600">欢迎来到南充，祝您旅途愉快</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- 交通信息 -->
+                <div class="bg-white rounded-xl p-8 shadow-lg">
+                    <h3 class="text-2xl font-bold text-dark mb-6 flex items-center gap-3">
+                        <i class="fa fa-plane text-primary"></i>交通出行
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="text-primary text-3xl mt-1"><i class="fa fa-plane"></i></div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-2">航空</h4>
+                                <p class="text-gray-600">南充高坪机场位于高坪区，开通了多条国内航线，可直飞北京、上海、广州、深圳等城市。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <div class="text-primary text-3xl mt-1"><i class="fa fa-train"></i></div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-2">铁路</h4>
+                                <p class="text-gray-600">南充站、南充北站是主要铁路客运站，有成渝高铁、达成铁路等线路经过，交通便利。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <div class="text-primary text-3xl mt-1"><i class="fa fa-bus"></i></div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-2">公路</h4>
+                                <p class="text-gray-600">南充市有多条高速公路交汇，包括沪蓉高速、兰海高速、成南高速等，公路网络发达。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 最佳旅游时间 -->
+                <div class="bg-white rounded-xl p-8 shadow-lg">
+                    <h3 class="text-2xl font-bold text-dark mb-6 flex items-center gap-3">
+                        <i class="fa fa-calendar text-primary"></i>旅游小贴士
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-bold text-lg mb-2">最佳旅游时间</h4>
+                            <p class="text-gray-600">南充气候温和，四季分明。最佳旅游时间为春季（3-5月）和秋季（9-11月），气候宜人，适合户外活动。</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-lg mb-2">特色节庆</h4>
+                            <p class="text-gray-600">阆中古城春节文化活动、南充嘉陵江国际龙舟赛、仪陇客家文化节等节庆活动丰富多彩。</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-lg mb-2">旅游路线推荐</h4>
+                            <p class="text-gray-600">经典路线：阆中古城（1-2天）→ 朱德故里（1天）→ 南充市区（1天）→ 升钟湖（1-2天）</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+                <!-- 关于南充 -->
+                <div>
+                    <h4 class="text-xl font-bold mb-6 text-accent">关于南充</h4>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        南充，古称果州、顺庆，位于四川省东北部，嘉陵江中游，是四川省第二人口大市，川东北经济、文化、交通中心。
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="text-gray-400 hover:text-white text-xl transition-colors">
+                            <i class="fa fa-weibo"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl transition-colors">
+                            <i class="fa fa-wechat"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl transition-colors">
+                            <i class="fa fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl transition-colors">
+                            <i class="fa fa-youtube-play"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 快速链接 -->
+                <div>
+                    <h4 class="text-xl font-bold mb-6 text-accent">快速链接</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#intro" class="text-gray-400 hover:text-white transition-colors">城市简介</a></li>
+                        <li><a href="#food" class="text-gray-400 hover:text-white transition-colors">特色美食</a></li>
+                        <li><a href="#scenery" class="text-gray-400 hover:text-white transition-colors">风景名胜</a></li>
+                        <li><a href="#culture" class="text-gray-400 hover:text-white transition-colors">文化底蕴</a></li>
+                        <li><a href="#modern" class="text-gray-400 hover:text-white transition-colors">现代风采</a></li>
+                    </ul>
+                </div>
+                
+                <!-- 联系我们 -->
+                <div>
+                    <h4 class="text-xl font-bold mb-6 text-accent">联系我们</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <i class="fa fa-map-marker text-primary mt-1"></i>
+                            <span class="text-gray-400">四川省南充市顺庆区</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa fa-phone text-primary"></i>
+                            <span class="text-gray-400">0817-1234567</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa fa-envelope text-primary"></i>
+                            <span class="text-gray-400">info@nanchong.gov.cn</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa fa-clock-o text-primary"></i>
+                            <span class="text-gray-400">周一至周日 8:00-18:00</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 订阅 -->
+                <div>
+                    <h4 class="text-xl font-bold mb-6 text-accent">订阅资讯</h4>
+                    <p class="text-gray-400 mb-4">订阅我们的资讯，了解南充最新动态</p>
+                    <form class="space-y-3">
+                        <input type="email" placeholder="请输入您的邮箱" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary">
+                        <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-colors">
+                            立即订阅
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- 版权信息 -->
+            <div class="pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+                <p>&copy; 2023 南充市旅游局 版权所有 | 川ICP备12345678号</p>
+                <p class="mt-2">本网站仅供学习参考，内容仅供展示</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary hover:bg-primary/90 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transform transition-all duration-300 translate-y-20 opacity-0">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        const backToTop = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 100) {
+                navbar.classList.add('bg-dark/95', 'shadow-lg');
+                navbar.classList.remove('bg-transparent');
+                backToTop.classList.remove('translate-y-20', 'opacity-0');
+            } else {
+                navbar.classList.remove('bg-dark/95', 'shadow-lg');
+                navbar.classList.add('bg-transparent');
+                backToTop.classList.add('translate-y-20', 'opacity-0');
+            }
+        });
+        
+        // 移动端菜单
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuBtn.addEventListener('click', function() {
+            if (mobileMenu.classList.contains('opacity-0')) {
+                mobileMenu.classList.remove('opacity-0', '-translate-y-full', 'pointer-events-none');
+                mobileMenu.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                menuBtn.innerHTML = '<i class="fa fa-times"></i>';
+            } else {
+                mobileMenu.classList.add('opacity-0', '-translate-y-full', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                menuBtn.innerHTML = '<i class="fa fa-bars"></i>';
+            }
+        });
+        
+        // 点击移动端菜单项关闭菜单
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenu.classList.add('opacity-0', '-translate-y-full', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                menuBtn.innerHTML = '<i class="fa fa-bars"></i>';
+            });
+        });
+        
+        // 轮播图功能
+        const carousel = document.getElementById('scenery-carousel');
+        const carouselTrack = carousel.querySelector('.flex');
+        const slides = carousel.querySelectorAll('.min-w-full');
+        const prevBtn = document.getElementById('prev-slide');
+        const nextBtn = document.getElementById('next-slide');
+        const indicators = document.querySelectorAll('.absolute.bottom-4 button');
+        let currentIndex = 0;
+        const slideCount = slides.length;
+        
+        function updateCarousel() {
+            carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+            
+            // 更新指示器
+            indicators.forEach((indicator, index) => {
+                if (index === currentIndex) {
+                    indicator.classList.add('opacity-100');
+                    indicator.classList.remove('opacity-50');
+                } else {
+                    indicator.classList.add('opacity-50');
+                    indicator.classList.remove('opacity-100');
+                }
+            });
+        }
+        
+        prevBtn.addEventListener('click', function() {
+            currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+            updateCarousel();
+        });
+        
+        nextBtn.addEventListener('click', function() {
+            currentIndex = (currentIndex + 1) % slideCount;
+            updateCarousel();
+        });
+        
+        // 点击指示器切换轮播
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', function() {
+                currentIndex = index;
+                updateCarousel();
+            });
+        });
+        
+        // 自动轮播
+        let carouselInterval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % slideCount;
+            updateCarousel();
+        }, 5000);
+        
+        // 鼠标悬停时暂停轮播
+        carousel.addEventListener('mouseenter', function() {
+            clearInterval(carouselInterval);
+        });
+        
+        carousel.addEventListener('mouseleave', function() {
+            carouselInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % slideCount;
+                updateCarousel();
+            }, 5000);
+        });
+        
+        // 返回顶部功能
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // 页面加载动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.card-hover');
+            elements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+</html>
