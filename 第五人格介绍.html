@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第五人格 - 哥特式生存对抗手游</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @font-face {
+            font-family: 'GothicFont';
+            src: url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+            font-display: swap;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a101c 50%, #0a0a0a 100%);
+            color: #e0c8d8;
+            font-family: 'GothicFont', 'Microsoft YaHei', serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(100, 10, 30, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(10, 10, 50, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        /* 哥特式装饰元素 */
+        .gothic-border {
+            border: 2px solid #5a2b3b;
+            position: relative;
+        }
+
+        .gothic-border::before,
+        .gothic-border::after,
+        .gothic-border-top::before,
+        .gothic-border-top::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #5a2b3b;
+        }
+
+        .gothic-border::before {
+            top: -15px;
+            left: -15px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .gothic-border::after {
+            top: -15px;
+            right: -15px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .gothic-arch {
+            position: relative;
+            height: 100px;
+            background: linear-gradient(135deg, #2c1023 0%, #4c1030 100%);
+            overflow: hidden;
+        }
+
+        .gothic-arch::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120%;
+            height: 120px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a101c 50%, #0a0a0a 100%);
+            border-radius: 50% 50% 0 0 / 60% 60% 0 0;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #5a2b3b;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #d4a7b7;
+            text-shadow: 0 0 10px rgba(212, 167, 183, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: #c93656;
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #e0c8d8;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, #c93656, #8e44ad);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #d4a7b7;
+            text-shadow: 0 0 10px rgba(212, 167, 183, 0.5);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* 英雄区 */
+        .hero {
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1561154464-82e9adf32764?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            filter: grayscale(50%) sepia(30%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #d4a7b7;
+            text-shadow: 0 0 20px rgba(212, 167, 183, 0.5);
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #b89ca8;
+            font-style: italic;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #722f37 0%, #c93656 100%);
+            color: #f5e9ed;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(193, 54, 86, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(193, 54, 86, 0.6);
+        }
+
+        /* 主要内容 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        .section {
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .section::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #5a2b3b, transparent);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: #d4a7b7;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, #c93656, #8e44ad);
+        }
+
+        /* 游戏介绍 */
+        .game-intro {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .intro-text {
+            background: rgba(26, 16, 28, 0.7);
+            padding: 30px;
+            border-radius: 2px;
+            position: relative;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .intro-text::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid rgba(90, 43, 59, 0.3);
+            pointer-events: none;
+        }
+
+        /* 特色玩法 */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: rgba(26, 16, 28, 0.7);
+            padding: 30px;
+            border-radius: 2px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #c93656, #8e44ad);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #c93656;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            color: #d4a7b7;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .feature-description {
+            text-align: justify;
+        }
+
+        /* 角色展示 */
+        .characters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .character-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+            transition: transform 0.3s ease;
+            height: 400px;
+        }
+
+        .character-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .character-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            filter: brightness(0.7);
+        }
+
+        .character-card:hover .character-image {
+            transform: scale(1.1);
+            filter: brightness(0.5);
+        }
+
+        .character-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(10, 10, 15, 0.95), transparent);
+            transition: all 0.3s ease;
+        }
+
+        .character-card:hover .character-info {
+            transform: translateY(0);
+        }
+
+        .character-name {
+            font-size: 1.5rem;
+            color: #d4a7b7;
+            margin-bottom: 10px;
+        }
+
+        .character-role {
+            font-size: 1rem;
+            color: #c93656;
+            font-weight: bold;
+        }
+
+        /* 角色分类标题 */
+        .character-category {
+            font-size: 1.8rem;
+            color: #c93656;
+            margin: 30px 0 20px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* 角色描述 */
+        .character-desc {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #b89ca8;
+            line-height: 1.4;
+        }
+
+        /* 角色图片占位符 */
+        .character-image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2c1023 0%, #4c1030 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #d4a7b7;
+            font-size: 3rem;
+            transition: all 0.5s ease;
+        }
+
+        .character-image-placeholder i {
+            margin-bottom: 15px;
+            opacity: 0.7;
+        }
+
+        .character-image-placeholder p {
+            font-size: 1rem;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .character-card:hover .character-image-placeholder {
+            transform: scale(1.1);
+            opacity: 0.7;
+        }
+
+        /* 游戏截图 */
+        .screenshots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .screenshot-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+            aspect-ratio: 16/9;
+        }
+
+        .screenshot-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            filter: brightness(0.8) contrast(1.1);
+        }
+
+        .screenshot-item:hover .screenshot-img {
+            transform: scale(1.1);
+            filter: brightness(1) contrast(1);
+        }
+
+        /* 下载区域 */
+        .download-section {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(44, 16, 35, 0.8) 0%, rgba(76, 16, 48, 0.8) 100%);
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .download-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #d4a7b7;
+        }
+
+        .download-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: rgba(10, 10, 15, 0.7);
+            color: #d4a7b7;
+            text-decoration: none;
+            border: 1px solid #5a2b3b;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: rgba(90, 43, 59, 0.3);
+            transform: translateY(-3px);
+        }
+
+        /* 页脚 */
+        .footer {
+            background: rgba(10, 10, 15, 0.95);
+            border-top: 2px solid #5a2b3b;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #e0c8d8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #d4a7b7;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 1.5rem;
+        }
+
+        .social-links a {
+            color: #e0c8d8;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #c93656;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            margin-top: 20px;
+            color: #886675;
+            font-size: 0.9rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .character-category {
+                font-size: 1.5rem;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-links a {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .btn-primary {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+
+            .character-card {
+                height: 350px;
+            }
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                <span>第五人格</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#intro">游戏简介</a></li>
+                <li><a href="#features">特色玩法</a></li>
+                <li><a href="#characters">角色介绍</a></li>
+                <li><a href="#screenshots">游戏截图</a></li>
+                <li><a href="#download">立即下载</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 英雄区 -->
+    <section class="hero">
+        <div class="hero-content fade-in">
+            <h1 class="hero-title">第五人格</h1>
+            <p class="hero-subtitle">哥特式悬疑求生手游</p>
+            <a href="#download" class="btn-primary">探索庄园</a>
+        </div>
+    </section>
+
+    <!-- 游戏简介 -->
+    <section id="intro" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">游戏简介</h2>
+            <div class="game-intro">
+                <div class="intro-text fade-in delay-1">
+                    <p>《第五人格》是一款由网易开发的哥特式悬疑风格生存对抗手游。游戏发生在维多利亚时代的一座废弃庄园中，玩家将扮演求生者或监管者，展开一场惊心动魄的猫鼠游戏。</p>
+                    <p>求生者的目标是破译5台密码机并打开大门逃离庄园，而监管者则需要阻止他们逃脱。游戏融合了策略、操作和心理博弈，带来紧张刺激的游戏体验。</p>
+                </div>
+                <div class="intro-text fade-in delay-2">
+                    <p>随着游戏的深入，玩家将逐渐揭开庄园背后的神秘面纱，探索每个角色的背景故事和隐藏秘密。精美的哥特式画风、丰富的角色设定和独特的玩法机制，使《第五人格》成为了一款备受欢迎的多人在线游戏。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 哥特式拱门装饰 -->
+    <div class="gothic-arch"></div>
+
+    <!-- 特色玩法 -->
+    <section id="features" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">特色玩法</h2>
+            <div class="features">
+                <div class="feature-card fade-in delay-1">
+                    <div class="feature-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h3 class="feature-title">不对称对抗</h3>
+                    <p class="feature-description">1名监管者对战4名求生者的非对称竞技模式，带来紧张刺激的猫鼠游戏体验。监管者拥有强大的追捕能力，求生者则需要运用智慧和团队合作逃脱。</p>
+                </div>
+                <div class="feature-card fade-in delay-2">
+                    <div class="feature-icon">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <h3 class="feature-title">多样化角色</h3>
+                    <p class="feature-description">游戏拥有丰富多样的角色，每个角色都有独特的技能和背景故事。求生者有医生、律师、机械师等多种职业，监管者则包括杰克、小丑、红蝶等经典角色。</p>
+                </div>
+                <div class="feature-card fade-in delay-3">
+                    <div class="feature-icon">
+                        <i class="fas fa-mansion"></i>
+                    </div>
+                    <h3 class="feature-title">哥特式场景</h3>
+                    <p class="feature-description">精心设计的哥特式场景，包括废弃庄园、军工厂、红教堂等，每个地图都有独特的机关和布局，为游戏增添了更多策略性和探索乐趣。</p>
+                </div>
+                <div class="feature-card fade-in delay-4">
+                    <div class="feature-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3 class="feature-title">悬疑剧情</h3>
+                    <p class="feature-description">引人入胜的悬疑剧情，通过推演日记、角色故事等方式逐步展开，让玩家在游戏之余也能体验到探索和解谜的乐趣，揭开庄园背后的真相。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 角色展示 - 更新版本 -->
+    <section id="characters" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">角色介绍</h2>
+            
+            <!-- 监管者 -->
+            <h3 class="character-category fade-in delay-1">监管者</h3>
+            <div class="characters">
+                <div class="character-card fade-in delay-1">
+                    <div class="character-image-placeholder">
+                        <i class="fas fa-ghost"></i>
+                        <p>杰克 - 监管者</p>
+                    </div>
+                    <div class="character-info">
+                        <h3 class="character-name">杰克</h3>
+                        <p class="character-role">监管者</p>
+                        <p class="character-desc">雾都开膛手，能够进入隐身状态并穿过障碍物，使用雾刃进行远程攻击。</p>
+                    </div>
+                </div>
+                <div class="character-card fade-in delay-2">
+                    <div class="character-image-placeholder">
+                        <i class="fas fa-butterfly"></i>
+                        <p>红蝶 - 监管者</p>
+                    </div>
+                    <div class="character-info">
+                        <h3 class="character-name">红蝶</h3>
+                        <p class="character-role">监管者</p>
+                        <p class="character-desc">日本艺伎，可切换形态，拥有瞬间闪现和飞行能力，是一位灵活的追击者。</p>
+                    </div>
+                </div>
+                <div class="character-card fade-in delay-3">
+                    <div class="character-image-placeholder">
+                        <i class="fas fa-smile"></i>
+                        <p>小丑 - 监管者</p>
+                    </div>
+                    <div class="character-info">
+                        <h3 class="character-name">小丑</h3>
+                        <p class="character-role">监管者</p>
+                        <p class="character-desc">手持火箭筒的恐怖小丑，可装配不同零件强化自己，擅长快速追击求生者。</p>
+                    </div>
+                </div>
+                <div class="character-card fade-in delay-4">
+                    <div class="character-image-placeholder">
+                        <i class="fas fa-dragon"></i>
+                        <p>黄衣之主 - 监管者</p>
+                    </div>
+                    <div class="character-info">
+                        <h3 class="character-name">黄衣之主</h3>
+                        <p class="character-role">监管者</p>
+                        <p class="character-desc">克苏鲁风格的古老存在，能召唤触手限制求生者行动，控制区域能力极强。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 求生者 -->
+            <h3 class="character-category fade-in delay-2">求生者</h3>
+            <div class="characters">
+                <div class="character-card fade-in delay-1">
+                    <div class="character-image-placeholder">
+                        <i class="fas fa-stethoscope"></i>
+                        <p>医生 - 求生者</p>
+                    </div>
+                    <div class="character-info">
+                        <h3 class="character-name">医生</h3>
+                        <p class="character-role">求生者</p>
+                        <p class="character-desc">拥有医疗箱，可治疗自己和队友，自带自愈能力，是团队的治疗核心。</p>
+                    </div>
+                </div>
+                <div class="character-card fade-in delay-2">
+                    <div class="character-image-placeholder">
+                        <i class="fas fa-cogs"></i>
+                        <p>机械师 - 求生者</p>
+                    </div>
+                    <div class="character-info">
+                        <h3 class="character-name">机械师</h3>
+                        <p class="character-role">求生者</p>
+                        <p class="character-desc">擅长破译密码机，可召唤机械傀儡代替自己行动，团队的破译主力。</p>
+                    </div>
+                </div>
+                <div class="character-card fade-in delay-3">
+                    <div class="character-image-placeholder">
+                        <i class="fas fa-running"></i>
+                        <p>前锋 - 求生者</p>
+                    </div>
+                    <div class="character-info">
+                        <h3 class="character-name">前锋</h3>
+                        <p class="character-role">求生者</p>
+                        <p class="character-desc">橄榄球运动员，可冲刺撞击监管者，擅长救援队友和掩护逃脱。</p>
+                    </div>
+                </div>
+                <div class="character-card fade-in delay-4">
+                    <div class="character-image-placeholder">
+                        <i class="fas fa-camera"></i>
+                        <p>摄影师 - 求生者</p>
+                    </div>
+                    <div class="character-info">
+                        <h3 class="character-name">摄影师</h3>
+                        <p class="character-role">求生者</p>
+                        <p class="character-desc">可使用照片回溯自己的位置，在危险时快速逃脱，具有独特的生存能力。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 游戏截图 -->
+    <section id="screenshots" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">游戏截图</h2>
+            <div class="screenshots">
+                <div class="screenshot-item fade-in delay-1">
+                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="游戏截图1" class="screenshot-img">
+                </div>
+                <div class="screenshot-item fade-in delay-2">
+                    <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="游戏截图2" class="screenshot-img">
+                </div>
+                <div class="screenshot-item fade-in delay-3">
+                    <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1E0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="游戏截图3" class="screenshot-img">
+                </div>
+                <div class="screenshot-item fade-in delay-4">
+                    <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="游戏截图4" class="screenshot-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 下载区域 -->
+    <section id="download" class="section">
+        <div class="container">
+            <div class="download-section fade-in">
+                <h2 class="download-title">加入这场悬疑盛宴</h2>
+                <p>立即下载《第五人格》，探索神秘庄园，体验紧张刺激的非对称对抗！</p>
+                <div class="download-links">
+                    <a href="#" class="download-btn">
+                        <i class="fab fa-apple"></i>
+                        <span>App Store</span>
+                    </a>
+                    <a href="#" class="download-btn">
+                        <i class="fab fa-android"></i>
+                        <span>Google Play</span>
+                    </a>
+                    <a href="#" class="download-btn">
+                        <i class="fas fa-download"></i>
+                        <span>官方下载</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <ul class="footer-links">
+                <li><a href="#">官方网站</a></li>
+                <li><a href="#">游戏公告</a></li>
+                <li><a href="#">玩家社区</a></li>
+                <li><a href="#">隐私政策</a></li>
+                <li><a href="#">服务条款</a></li>
+            </ul>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-weibo"></i></a>
+                <a href="#"><i class="fab fa-weixin"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p class="copyright">© 2023 网易游戏 第五人格 版权所有</p>
+        </div>
+    </footer>
+
+    <script>
+        // 滚动动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            fadeElements.forEach(element => {
+                element.style.animationPlayState = 'paused';
+                observer.observe(element);
+            });
+            
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
